@@ -12,28 +12,27 @@ def download(url, savepath='./'):
     """
     def reporthook(a, b, c):
         """
-        显示下载进度
-        :param a: 已经下载的数据块
-        :param b: 数据块的大小
-        :param c: 远程文件大小
+        顯示下載進度
+        :param a: 已經下載的data
+        :param b: data size
+        :param c: 文件總大小
         :return: None
         """
         print("\rdownloading: %5.1f%%" % (a * b * 100.0 / c), end="")
     filename = os.path.basename(url)
-    # 判断文件是否存在，如果不存在则下载
+    # 判斷檔案是否存在，不存在才下載
     if not os.path.isfile(os.path.join(savepath, filename)):
         print('Downloading data from %s' % url)
         urlretrieve(url, os.path.join(savepath, filename), reporthook=reporthook)
         print('\nDownload finished!')
     else:
         print('File already exsits!')
-    # 获取文件大小
+    # get size of file 
     filesize = os.path.getsize(os.path.join(savepath, filename))
-    # 文件大小默认以Bytes计， 转换为Mb
+    # 檔案大小預設是用Bytes， 轉換成Mb
     print('File size = %.2f Mb' % (filesize/1024/1024))
  
 if __name__ == '__main__':
-    # 以下载cifar-10数据集为例
     response = requests.get("http://www.ghibli.jp/info/013344/")
     soup = BeautifulSoup(response.text, 'html.parser')
     kinds = soup.find_all("div", "col-xs-6 col-sm-4")
